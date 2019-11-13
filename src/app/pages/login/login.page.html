@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form [formGroup]="authForm" (submit)="onSubmit(authProviders.Email)">
+    <ng-container *ngIf="!configs.isSignIn">
+      <ion-item>
+        <ion-icon name="person" color="primary" slot="start"></ion-icon>
+        <ion-input type="text" placeholder="Nome" formControlName="nome"></ion-input>
+      </ion-item>
+      <ion-note slot="end" color="danger" *ngIf="nome.dirty && nome.hasError('required')">
+        Obrigatório
+      </ion-note>
+      <ion-note slot="end" color="danger" *ngIf="nome.dirty && nome.hasError('minlength')">
+        Mínimo 3 caracteres
+      </ion-note>
+
+      <ion-item>
+        <ion-icon name="contact" color="primary" slot="start"></ion-icon>
+        <ion-input type="text" placeholder="CPF" formControlName="cpf" [brmasker]="{mask:'999.999.999-99', len:14,
+        type:'num'}"></ion-input>
+      </ion-item>
+      <ion-note slot="end" color="danger" *ngIf="cpf.dirty && cpf.hasError('required')">
+        Obrigatório
+      </ion-note>
+      <ion-note slot="end" color="danger" *ngIf="cpf.dirty && cpf.hasError('maxlength')">
+        Máximo 14 caracteres
+      </ion-note>
+    </ng-container>
+
+    <ion-item>
+      <ion-icon name="mail" color="primary" slot="start"></ion-icon>
+      <ion-input type="email" placeholder="E-mail" autofocus="true" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-note slot="end" color="danger" *ngIf="email.dirty && email.hasError('required')">Obrigatório</ion-note>
+    <ion-note slot="end" color="danger" *ngIf="email.dirty && email.hasError('email')">
+      E-mail Inválido</ion-note>
+
+    <ion-item>
+      <ion-icon name="lock" slot="start"></ion-icon>
+      <ion-input type="password" placeholder="Senha" autofocus="true" formControlName="password"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit">{{configs.action}}</ion-button>
+  </form>
+
+  <ion-button expand="block" fill="clear" (click)="criandoContaAction()">{{configs.actionChange}}</ion-button>
+
+
+  <ion-button expand="block" (click)="onSubmit(authProviders.Facebook)">
+    <ion-icon name="logo-facebook" slot="start"></ion-icon>
+    Login com Facebook
+  </ion-button>
+</ion-content>
