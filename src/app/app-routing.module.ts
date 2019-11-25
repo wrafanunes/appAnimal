@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './pages/guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
     path: 'list',
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule',canActivate:[LoginGuard] },
   { path: 'contact', loadChildren: './contact/contact.module#ContactPageModule' }
 ];
 
