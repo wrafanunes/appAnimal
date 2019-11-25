@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthProvider } from 'src/app/services/auth.type';
 import { OverlayService } from "src/app/services/OverlayService";
+import { Router } from '@angular/router';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ import { OverlayService } from "src/app/services/OverlayService";
 })
 
 export class LoginPage implements OnInit {
-
+  public loading:any;
   authForm : FormGroup;
   authProviders = AuthProvider; //Recebendo o enum Email ou Facebook
   configs = {
@@ -22,7 +24,8 @@ export class LoginPage implements OnInit {
 
   constructor(private fb: FormBuilder,
     private as: AuthService,
-    private overlayService: OverlayService){}
+    private overlayService: OverlayService,private router : Router, public loadingCtrl:LoadingController,
+    public toastCtrl:ToastController){}
 
   
   ngOnInit():void {
@@ -64,7 +67,10 @@ export class LoginPage implements OnInit {
   //provider trazendo se é com Email ou Facebook
   
   async onSubmit(provider: AuthProvider) : Promise<void> {
-    const loading = await this.overlayService.loading();
+    this.loading = await this.overlayService.loading({
+      message: 'Autenticando',
+      duration: 2050
+    });
     try{
       const creditials = await this.as.autenticate({
         isSignIn: this.configs.isSignIn,          //Quando o Valor digitado
@@ -72,16 +78,22 @@ export class LoginPage implements OnInit {
       });
       console.log('Autenticado ', creditials);
       console.log('Redirecionando... ');
-
     } catch (e){
-        console.log( 'error: ' , e);
+      let message:string;
+        switch(e.code){
+          case 'auth/invalid-email':
+            message='E-mail inválido';
+          break;
+        }
+        this.presentToast(message);
         await this.overlayService.toast({
-          message: e.message
+          message
         });
       }
       finally {
-        loading.dismiss();
+        this.loading.dismiss();
       }
+      return this.loading.present();
     }
   
    
@@ -105,5 +117,12 @@ export class LoginPage implements OnInit {
           ? this.authForm.addControl('cpf',
               this.cpf)
           :this.authForm.removeControl('cpf')        
+        }
+        async presentToast(message: string){
+          const toast=await this.toastCtrl.create({
+            message,
+            duration: 2050
+          });
+          toast.present();
         }     
 }

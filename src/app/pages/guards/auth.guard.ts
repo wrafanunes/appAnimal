@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ResolvedReflectiveFactory } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { tap, take } from 'rxjs/operators';
+import { resolve } from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      this.authService.getAuth().onAuthStateChanged(user=>{
+        if(!user) this.router.navigate(['login']);
+      })
     return this.checkAuthState(state.url);
   }
   canActivateChild(
@@ -49,3 +53,4 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
         }
 
 }
+//pode ser esta

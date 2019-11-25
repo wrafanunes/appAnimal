@@ -78,4 +78,7 @@ export class AuthService {
           .then(() => creditials) 
       );
   }
+  getAuth(){
+    return this.autent.auth;
+  }
 }

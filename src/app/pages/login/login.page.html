@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="/home"></ion-back-button>
+        </ion-buttons>
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -45,10 +48,10 @@
       <ion-input type="password" placeholder="Senha" autofocus="true" formControlName="password"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <!--<ion-item>
         <ion-icon name="pin"></ion-icon>
         <ion-input type="text" placeholder="Endereço" formControlName="endereco"></ion-input>
-    </ion-item>
+    </ion-item>-->
 
     <ion-button expand="block" type="submit">{{configs.action}}</ion-button>
   </form>
