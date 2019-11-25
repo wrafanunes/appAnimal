@@ -9,7 +9,7 @@ import { resolve } from 'url';
 })
 export class LoginGuard implements  CanActivate{
   constructor(public authService:AuthService,public router:Router){}
-  canActivate():Promise<Boolean>{
+  canActivate():Promise<boolean>{
     return new Promise(resolve=>{
         this.authService.getAuth().onAuthStateChanged(user=>{
             if(!user) this.router.navigate(['login']);
