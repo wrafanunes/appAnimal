@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<ion-list>
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="animal.name" placeholder="nome"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="animal.description" placeholder="descrição"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="animal.picture" placeholder="foto"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="animal.price" placeholder="preço"></ion-input>
+  </ion-item>
+</ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="saveAnimal()" expand="block">
+      Salvar Animal
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
